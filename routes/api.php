@@ -21,11 +21,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/todos', ListTodosController::class)
-    ->name('todos');
+Route::prefix('/todos')->group(function () {
+    Route::get('/', ListTodosController::class)
+        ->name('todos');
 
-Route::post('/todos', RegisterTodoController::class)
-    ->name('todos.store');
+    Route::post('/', RegisterTodoController::class)
+        ->name('todos.store');
 
-Route::get('/todos/{todo}', ShowTodoController::class)
-    ->name('todos.show');
+    Route::get('/{todo}', ShowTodoController::class)
+        ->name('todos.show');
+});
