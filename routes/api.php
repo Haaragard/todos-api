@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ListTodosController;
 use App\Http\Controllers\RegisterTodoController;
+use App\Http\Controllers\ShowTodoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +26,6 @@ Route::get('/todos', ListTodosController::class)
 
 Route::post('/todos', RegisterTodoController::class)
     ->name('todos.store');
+
+Route::get('/todos/{todo}', ShowTodoController::class)
+    ->name('todos.show');

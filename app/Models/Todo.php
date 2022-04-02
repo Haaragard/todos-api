@@ -10,4 +10,9 @@ class Todo extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function path(): string
+    {
+        return route('todos.show', ['todo' => $this->id]);
+    }
 }

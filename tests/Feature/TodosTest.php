@@ -24,8 +24,27 @@ class TodosTest extends TestCase
         $todo = Todo::factory()->raw();
 
         $this->post(route('todos.store'), $todo)
+            ->assertCreated()
             ->assertJson($todo);
 
         $this->assertDatabaseHas(Todo::class, $todo);
+    }
+
+    /** @test */
+    public function can_view_a_todo()
+    {
+        $todo = Todo::factory()->create();
+
+        $this->get($todo->path())
+            ->assertExactJson($todo->toArray());
+    }
+
+    /** @test */
+    public function cannot_view_an_unnexistent_todo()
+    {
+        $todo = Todo::factory()->makeOne(['id' => 1]);
+
+        $this->get($todo->path())
+            ->assertNotFound();
     }
 }
