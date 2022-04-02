@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ListTodoListsController;
 use App\Http\Controllers\ListTodosController;
 use App\Http\Controllers\RegisterTodoController;
 use App\Http\Controllers\ShowTodoController;
@@ -31,3 +32,7 @@ Route::prefix('/todos')->group(function () {
     Route::get('/{todo}', ShowTodoController::class)
         ->name('todos.show');
 });
+
+Route::get('/todo-lists', ListTodoListsController::class)
+    ->middleware('auth')
+    ->name('todo-lists');
