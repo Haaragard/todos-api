@@ -21,8 +21,11 @@ class TodosTest extends TestCase
     /** @test */
     public function can_register_a_todo()
     {
-        $todo = Todo::factory()->create();
+        $todo = Todo::factory()->raw();
 
-        $this->assertDatabaseHas(Todo::class, $todo->toArray());
+        $this->post(route('todos.store'), $todo)
+            ->assertJson($todo);
+
+        $this->assertDatabaseHas(Todo::class, $todo);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ListTodosController;
+use App\Http\Controllers\RegisterTodoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/todos', ListTodosController::class)
     ->name('todos');
+
+Route::post('/todos', RegisterTodoController::class)
+    ->name('todos.store');
