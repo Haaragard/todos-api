@@ -1,11 +1,8 @@
 <?php
 
-use App\Http\Controllers\ListTodoListsController;
 use App\Http\Controllers\ListTodosController;
 use App\Http\Controllers\RegisterTodoController;
 use App\Http\Controllers\ShowTodoController;
-use App\Http\Controllers\ShowTodoListController;
-use App\Http\Controllers\StoreTodoListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,15 +32,4 @@ Route::prefix('/todos')->group(function () {
         ->name('todos.show');
 });
 
-Route::get('/todo-lists', ListTodoListsController::class)
-    ->middleware('auth')
-    ->name('todo-lists');
-
-Route::post('/todo-lists', StoreTodoListController::class)
-    ->middleware('auth')
-    ->name('todo-lists.store');
-
-Route::get('/todo-lists/{todoList}', ShowTodoListController::class)
-    ->middleware('auth')
-    ->name('todo-lists.show')
-    ->can('view', 'todoList');
+require 'api/TodoLists.php';
