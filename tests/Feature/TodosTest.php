@@ -21,6 +21,16 @@ class TodosTest extends TestCase
     }
 
     /** @test */
+    public function guest_cannot_create_a_todo()
+    {
+        $todoList = $this->createTodoList();
+        $todo = $this->createTodo(null, $todoList);
+
+        $this->get(route('todo-lists.show.todos.store', ['todoList' => $todoList->id]), $todo->toArray())
+            ->assertRedirect(route('login'));
+    }
+
+    /** @test */
     public function can_view_todos()
     {
         $this->signIn();
@@ -36,9 +46,13 @@ class TodosTest extends TestCase
     /** @test */
     public function can_register_a_todo()
     {
+        $this->signIn();
+
+        $todoList = $this->createTodoList(null, auth()->user());
+
         $todo = Todo::factory()->raw();
 
-        $this->post(route('todos.store'), $todo)
+        $this->post(route('todo-lists.show.todos.store', ['todoList' => $todoList->id]), $todo)
             ->assertCreated()
             ->assertJson($todo);
 
@@ -48,18 +62,26 @@ class TodosTest extends TestCase
     /** @test */
     public function cannot_register_a_todo_without_title()
     {
+        $this->signIn();
+
+        $todoList = $this->createTodoList(null, auth()->user());
+
         $todo = Todo::factory()->raw(['title' => '']);
 
-        $this->post(route('todos.store'), $todo)
+        $this->post(route('todo-lists.show.todos.store', ['todoList' => $todoList->id]), $todo)
             ->assertSessionHasErrors(['title']);
     }
 
     /** @test */
     public function cannot_register_a_todo_without_description()
     {
+        $this->signIn();
+
+        $todoList = $this->createTodoList(null, auth()->user());
+
         $todo = Todo::factory()->raw(['description' => '']);
 
-        $this->post(route('todos.store'), $todo)
+        $this->post(route('todo-lists.show.todos.store', ['todoList' => $todoList->id]), $todo)
             ->assertSessionHasErrors(['description']);
     }
 

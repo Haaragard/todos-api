@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Todo;
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterTodoRequest extends FormRequest
+class StoreTodoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class RegisterTodoRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**
