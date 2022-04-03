@@ -16,6 +16,7 @@ class ListTodosController extends Controller
      */
     public function __invoke(TodoList $todoList)
     {
+        $this->authorize('viewAny', [Todo::class, $todoList]);
         return response($todoList->todos);
     }
 }

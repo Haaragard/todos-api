@@ -33,5 +33,4 @@ Route::prefix('/todos')->group(function () {
 
 Route::get('/todo-lists/{todoList}/todos', ListTodosController::class)
     ->middleware('auth')
-    ->name('todo-lists.show.todos')
-    ->can('view', 'todoList');
+    ->name('todo-lists.show.todos');
