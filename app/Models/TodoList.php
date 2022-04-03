@@ -12,6 +12,11 @@ class TodoList extends Model
 
     protected $guarded = [];
 
+    public function path(): string
+    {
+        return route('todo-lists.show', ['todoList' => $this->id]);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
