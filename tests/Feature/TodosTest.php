@@ -12,10 +12,25 @@ class TodosTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
+    public function guest_cannot_view_todos()
+    {
+        $todoList = $this->createTodoList();
+
+        $this->get($todoList->todosPath())
+            ->assertRedirect(route('login'));
+    }
+
+    /** @test */
     public function can_view_todos()
     {
-        $this->get(route('todos'))
-            ->assertOk();
+        $this->signIn();
+
+        $todoList = $this->createTodoList(null, auth()->user());
+        $todos = $this->createTodo(10, $todoList);
+
+        $this->get($todoList->todosPath())
+            ->assertOk()
+            ->assertJson($todos->toArray());
     }
 
     /** @test */

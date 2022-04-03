@@ -21,10 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('/todos')->group(function () {
-    Route::get('/', ListTodosController::class)
-        ->name('todos');
+require 'api/TodoLists.php';
 
+Route::prefix('/todos')->group(function () {
     Route::post('/', RegisterTodoController::class)
         ->name('todos.store');
 
@@ -32,4 +31,7 @@ Route::prefix('/todos')->group(function () {
         ->name('todos.show');
 });
 
-require 'api/TodoLists.php';
+Route::get('/todo-lists/{todoList}/todos', ListTodosController::class)
+    ->middleware('auth')
+    ->name('todo-lists.show.todos')
+    ->can('view', 'todoList');

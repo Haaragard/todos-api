@@ -18,6 +18,11 @@ class TodoList extends Model
         return route('todo-lists.show', ['todoList' => $this->id]);
     }
 
+    public function todosPath(): string
+    {
+        return route('todo-lists.show.todos', ['todoList' => $this->id]);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

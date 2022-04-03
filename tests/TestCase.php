@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Todo;
 use App\Models\TodoList;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -32,5 +33,18 @@ abstract class TestCase extends BaseTestCase
 
         return $user->todoLists()
             ->createMany(TodoList::factory($quantity)->raw());
+    }
+
+    public function createTodo(?int $quantity = null, ?TodoList $todoList = null): Todo|Collection
+    {
+        $todoList = $todoList ?? $this->createTodoList();
+
+        if (is_null($quantity)) {
+            return $todoList->todos()
+                ->create(Todo::factory()->raw());
+        }
+
+        return $todoList->todos()
+            ->createMany(Todo::factory($quantity)->raw());
     }
 }
