@@ -22,10 +22,7 @@ class TodoListsTest extends TestCase
     /** @test */
     public function guests_cannot_view_a_todo_list()
     {
-        $user = User::factory()->create();
-
-        $todoList = $user->todoLists()
-            ->create(TodoList::factory()->raw());
+        $todoList = $this->createTodoList();
 
         $this->get($todoList->path())
             ->assertRedirect(route('login'));
@@ -45,11 +42,7 @@ class TodoListsTest extends TestCase
     {
         $this->signIn();
 
-        $todoList = auth()->user()
-            ->todoLists()
-            ->create(
-                TodoList::factory()->raw()
-            );
+        $todoList = $this->createTodoList(null, auth()->user());
 
         $this->get(route('todo-lists'))
             ->assertOk()
@@ -88,9 +81,7 @@ class TodoListsTest extends TestCase
     {
         $this->signIn();
 
-        $todoList = auth()->user()
-            ->todoLists()
-            ->create(TodoList::factory()->raw());
+        $todoList = $this->createTodoList(null, auth()->user());
 
         $this->get($todoList->path())
             ->assertOk()
@@ -102,10 +93,7 @@ class TodoListsTest extends TestCase
     {
         $this->signIn();
 
-        $otherUser = User::factory()->create();
-
-        $todoList = $otherUser->todoLists()
-            ->create(TodoList::factory()->raw());
+        $todoList = $this->createTodoList();
 
         $this->get($todoList->path())
             ->assertForbidden();
